@@ -12,11 +12,19 @@
 
     let json = await response.json();
     console.log(json);
-    
+  }
+
+  function connectWS() {
+    let websocket = new WebSocket("ws://localhost:3000/ws")
+    websocket.onopen = () => {
+      console.log('Connected to WebSocket');
+      websocket.send("Hello world!");
+    }
   }
 </script>
 
 <button on:click={getQuizzes}>Get quizzes</button>
+<button on:click={connectWS}>Connect WebSocket</button>
 
 <main>
   <div>
