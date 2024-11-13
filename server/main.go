@@ -49,7 +49,8 @@ func index(c *fiber.Ctx) error {
 func getQuizzes(c *fiber.Ctx) error {
 	list := []map[string]any{
 		{
-			"test": 123,
+			"id":   1,
+			"name": "First quizz",
 		},
 	}
 	return c.JSON(list)
