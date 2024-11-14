@@ -13,6 +13,12 @@ type QuizCollection struct {
 	collection *mongo.Collection
 }
 
+func Quiz(collection *mongo.Collection) *QuizCollection {
+	return &QuizCollection{
+		collection: collection,
+	}
+}
+
 func (c QuizCollection) InsertQuiz(quiz entity.Quiz) error {
 	_, err := c.collection.InsertOne(context.Background(), quiz)
 	return err
@@ -37,7 +43,7 @@ func (c QuizCollection) GetQuizzes() ([]entity.Quiz, error) {
 	}
 
 	var quiz []entity.Quiz
-	err = cursor.Decode(&quiz)
+	err = cursor.All(context.Background(), &quiz)
 	if err != nil {
 		return nil, err
 	}
