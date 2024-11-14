@@ -1,16 +1,18 @@
 package internal
 
 import (
+	"context"
 	"log"
 	"server/internal/collection"
 	"server/internal/controller"
 	"server/internal/service"
+	"time"
 
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type App struct {
@@ -34,7 +36,7 @@ func (a *App) setupHttp() {
 	app.Use(cors.New())
 
 	quizController := controller.Quiz(a.quizService)
-	app.Get("/api/quizzes", quizController.GetQuizzes)
+	app.Get("/api/v1/quizzes", quizController.GetQuizzes)
 
 	wsController := controller.Ws(a.netService)
 	app.Get("/ws", websocket.New(wsController.Ws))
@@ -48,8 +50,10 @@ func (a *App) setupServices() {
 }
 
 func (a *App) setupDb() {
-	clientOpts := options.Client().ApplyURI("mongodb://localhost:27017")
-	client, err := mongo.Connect(clientOpts)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx,
+		options.Client().ApplyURI("mongodb://localhost:27017"))
 
 	if err != nil {
 		panic(err)

@@ -2,11 +2,12 @@ package collection
 
 import (
 	"context"
+	"fmt"
 	"server/internal/entity"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/v2/bson"
-	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type QuizCollection struct {
@@ -37,16 +38,31 @@ func (c QuizCollection) GetQuizById(id primitive.ObjectID) (*entity.Quiz, error)
 }
 
 func (c QuizCollection) GetQuizzes() ([]entity.Quiz, error) {
-	cursor, err := c.collection.Find(context.Background(), bson.M{})
+	cursor, err := c.collection.Find(context.TODO(), bson.M{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to find quizzes: %w", err)
+	}
+	defer cursor.Close(context.Background())
+
+	var quizzes []entity.Quiz
+	if err = cursor.All(context.Background(), &quizzes); err != nil {
+		return nil, fmt.Errorf("failed to decode quizzes: %w", err)
 	}
 
-	var quiz []entity.Quiz
-	err = cursor.All(context.Background(), &quiz)
-	if err != nil {
-		return nil, err
+	// Print out the items
+	for _, item := range quizzes {
+		fmt.Printf("Item: %+v\n", item)
 	}
 
-	return quiz, nil
+	return quizzes, nil
+}
+
+func (c QuizCollection) UpdateQuiz(quiz entity.Quiz) error {
+	_, err := c.collection.UpdateOne(context.Background(), bson.M{
+		"_id": quiz.Id,
+	}, bson.M{
+		"$set": quiz,
+	})
+
+	return err
 }
