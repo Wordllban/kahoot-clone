@@ -1,11 +1,12 @@
 package internal
 
 import (
-	"context"
 	"log"
 	"server/internal/collection"
 	"server/internal/controller"
 	"server/internal/service"
+
+	"context"
 	"time"
 
 	"github.com/gofiber/contrib/websocket"
@@ -36,7 +37,9 @@ func (a *App) setupHttp() {
 	app.Use(cors.New())
 
 	quizController := controller.Quiz(a.quizService)
-	app.Get("/api/v1/quizzes", quizController.GetQuizzes)
+	app.Get("/api/quizzes", quizController.GetQuizzes)
+	app.Get("/api/quizzes/:quizId", quizController.GetQuizById)
+	app.Put("/api/quizzes/:quizId", quizController.UpdateQuizById)
 
 	wsController := controller.Ws(a.netService)
 	app.Get("/ws", websocket.New(wsController.Ws))
@@ -54,7 +57,6 @@ func (a *App) setupDb() {
 	defer cancel()
 	client, err := mongo.Connect(ctx,
 		options.Client().ApplyURI("mongodb://localhost:27017"))
-
 	if err != nil {
 		panic(err)
 	}

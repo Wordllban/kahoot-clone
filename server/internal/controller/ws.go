@@ -17,18 +17,18 @@ func Ws(netService *service.NetService) WebsocketController {
 }
 
 func (c WebsocketController) Ws(con *websocket.Conn) {
-	/* 	var (
-	   		mt int
-	   		msg []byte
-	   		err error
-	   	)
+	var (
+		mt  int
+		msg []byte
+		err error
+	)
+	for {
+		if mt, msg, err = con.ReadMessage(); err != nil {
+			c.netService.OnDisconnect(con)
+			break
+		}
 
-	   	for {
-	   		if mt, msg, err = con.ReadMessage(); err != nil {
-	   			c.netService.OnDisconnect(con)
-	   			break
-	   		}
+		c.netService.OnIncomingMessage(con, mt, msg)
 
-	   		c.netService.OnIncomingMessage(con, mt, msg)
-	   	} */
+	}
 }

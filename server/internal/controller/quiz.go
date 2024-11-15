@@ -43,6 +43,7 @@ type UpdateQuizRequest struct {
 }
 
 func (c QuizController) UpdateQuizById(ctx *fiber.Ctx) error {
+
 	quizIdStr := ctx.Params("quizId")
 	quizId, err := primitive.ObjectIDFromHex(quizIdStr)
 	if err != nil {

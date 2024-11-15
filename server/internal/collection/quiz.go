@@ -2,7 +2,6 @@ package collection
 
 import (
 	"context"
-	"fmt"
 	"server/internal/entity"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -25,6 +24,21 @@ func (c QuizCollection) InsertQuiz(quiz entity.Quiz) error {
 	return err
 }
 
+func (c QuizCollection) GetQuizzes() ([]entity.Quiz, error) {
+	cursor, err := c.collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	var quiz []entity.Quiz
+	err = cursor.All(context.Background(), &quiz)
+	if err != nil {
+		return nil, err
+	}
+
+	return quiz, nil
+}
+
 func (c QuizCollection) GetQuizById(id primitive.ObjectID) (*entity.Quiz, error) {
 	result := c.collection.FindOne(context.Background(), bson.M{"_id": id})
 
@@ -35,26 +49,6 @@ func (c QuizCollection) GetQuizById(id primitive.ObjectID) (*entity.Quiz, error)
 	}
 
 	return &quiz, nil
-}
-
-func (c QuizCollection) GetQuizzes() ([]entity.Quiz, error) {
-	cursor, err := c.collection.Find(context.TODO(), bson.M{})
-	if err != nil {
-		return nil, fmt.Errorf("failed to find quizzes: %w", err)
-	}
-	defer cursor.Close(context.Background())
-
-	var quizzes []entity.Quiz
-	if err = cursor.All(context.Background(), &quizzes); err != nil {
-		return nil, fmt.Errorf("failed to decode quizzes: %w", err)
-	}
-
-	// Print out the items
-	for _, item := range quizzes {
-		fmt.Printf("Item: %+v\n", item)
-	}
-
-	return quizzes, nil
 }
 
 func (c QuizCollection) UpdateQuiz(quiz entity.Quiz) error {
