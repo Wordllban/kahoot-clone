@@ -6,6 +6,8 @@ import {
   PacketTypes,
   type ChangeGameStatePacket,
   type HostGamePacket,
+  type LeaderboardEntry,
+  type LeaderboardPacket,
   type Packet,
   type PlayerJoinPacket,
   type QuestionShowPacket,
@@ -15,6 +17,7 @@ import {
 export const hostGameState: Writable<GameState> = writable(GameState.Lobby);
 export const players: Writable<Player[]> = writable([]);
 export const tick: Writable<number> = writable(0);
+export const leaderboard: Writable<LeaderboardEntry[]> = writable([]);
 export const currentQuestion: Writable<QuizQuestion | null> = writable(null);
 
 export class HostGame {
@@ -59,6 +62,11 @@ export class HostGame {
       case PacketTypes.QuestionShow: {
         const data = packet as QuestionShowPacket;
         currentQuestion.set(data.question);
+        break;
+      }
+      case PacketTypes.Leaderboard: {
+        const data = packet as LeaderboardPacket;
+        leaderboard.set(data.points);
         break;
       }
     }

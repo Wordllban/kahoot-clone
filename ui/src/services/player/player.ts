@@ -6,10 +6,13 @@ import {
   type ChangeGameStatePacket,
   type ConnectPacket,
   type Packet,
+  type PlayerRevealPacket,
   type QuestionAnswerPacket,
 } from "../net";
 
 export const playerGameState: Writable<GameState> = writable(GameState.Lobby);
+export const playerPoints: Writable<number> = writable(0);
+
 export class PlayerGame {
   private net: NetService;
 
@@ -43,6 +46,11 @@ export class PlayerGame {
       case PacketTypes.ChangeGameState: {
         const data = packet as ChangeGameStatePacket;
         playerGameState.set(data.state);
+        break;
+      }
+      case PacketTypes.PlayerReveal: {
+        const data = packet as PlayerRevealPacket;
+        playerPoints.set(data.points);
         break;
       }
     }

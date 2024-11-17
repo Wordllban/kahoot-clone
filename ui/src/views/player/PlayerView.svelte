@@ -5,6 +5,7 @@
   import PlayerJoinView from "./PlayerJoinView.svelte";
   import PlayerLobbyView from "./PlayerLobbyView.svelte";
   import PlayerPlayView from "./PlayerPlayView.svelte";
+  import PlayerRevealView from "./PlayerRevealView.svelte";
 
   const game = new PlayerGame();
   let active = $state(false);
@@ -13,10 +14,12 @@
     active = true;
   }
 
-  const views: Record<GameState, Component<any>> = {
+  const views: Record<GameState, Component<any> | undefined> = {
     [GameState.Lobby]: PlayerLobbyView,
     [GameState.Play]: PlayerPlayView,
-    [GameState.Reveal]: PlayerLobbyView,
+    [GameState.Reveal]: PlayerRevealView,
+    [GameState.Intermission]: PlayerRevealView,
+    [GameState.End]: undefined,
   };
 
   console.log($playerGameState);
