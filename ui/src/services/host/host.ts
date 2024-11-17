@@ -1,5 +1,5 @@
 import { writable, type Writable } from "svelte/store";
-import type { Player } from "../../models/quiz";
+import type { Player, QuizQuestion } from "../../models/quiz";
 import {
   GameState,
   NetService,
@@ -8,10 +8,14 @@ import {
   type HostGamePacket,
   type Packet,
   type PlayerJoinPacket,
+  type QuestionShowPacket,
+  type TickPacket,
 } from "../net";
 
 export const hostGameState: Writable<GameState> = writable(GameState.Lobby);
 export const players: Writable<Player[]> = writable([]);
+export const tick: Writable<number> = writable(0);
+export const currentQuestion: Writable<QuizQuestion | null> = writable(null);
 
 export class HostGame {
   private net: NetService;
@@ -45,6 +49,16 @@ export class HostGame {
       case PacketTypes.PlayerJoin: {
         const data = packet as PlayerJoinPacket;
         players.update((p) => [...p, data.player]);
+        break;
+      }
+      case PacketTypes.Tick: {
+        const data = packet as TickPacket;
+        tick.set(data.tick);
+        break;
+      }
+      case PacketTypes.QuestionShow: {
+        const data = packet as QuestionShowPacket;
+        currentQuestion.set(data.question);
         break;
       }
     }

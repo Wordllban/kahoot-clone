@@ -5,7 +5,7 @@
   import { GameState } from "../../services/net";
   import HostQuizListView from "./HostQuizListView.svelte";
   import HostLobbyView from "./HostLobbyView.svelte";
-  import HostPlayerView from "./HostPlayerView.svelte";
+  import HostPlayView from "./HostPlayView.svelte";
 
   const game = new HostGame();
   let active = $state(false);
@@ -17,7 +17,8 @@
 
   const views: Record<GameState, Component<any>> = {
     [GameState.Lobby]: HostLobbyView,
-    [GameState.Play]: HostPlayerView,
+    [GameState.Play]: HostPlayView,
+    [GameState.Reveal]: HostPlayView,
   };
 </script>
 

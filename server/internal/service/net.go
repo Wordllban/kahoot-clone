@@ -230,6 +230,9 @@ func (c *NetService) OnIncomingMessage(con *websocket.Conn, mt int, msg []byte) 
 			c.SendPacket(con, ChangeGameStatePacket{
 				State: game.State,
 			})
+
+			fmt.Printf("New game hosted: %s", game.Code)
+
 			break
 		}
 	case *StartGamePacket:

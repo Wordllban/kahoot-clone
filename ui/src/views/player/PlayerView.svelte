@@ -16,7 +16,10 @@
   const views: Record<GameState, Component<any>> = {
     [GameState.Lobby]: PlayerLobbyView,
     [GameState.Play]: PlayerPlayView,
+    [GameState.Reveal]: PlayerLobbyView,
   };
+
+  console.log($playerGameState);
 </script>
 
 {#if active}
