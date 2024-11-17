@@ -8,6 +8,7 @@
   } from "../../services/host/host";
   import { COLORS, type QuizChoice } from "../../models/quiz";
   import { GameState } from "../../services/net";
+  import Clock from "../../lib/Clock.svelte";
 
   interface Props {
     game: HostGame;
@@ -35,9 +36,11 @@
     </div>
     <div class="flex-1 flex flex-col justify-center pl-4">
       <div class="flex justify-between items-center">
-        <div class="bg-purple-500 text-white text-3xl rounded-full">
-          {$tick}
-        </div>
+        <Clock>
+          <span class="text-3xl">{$tick}</span>
+        </Clock>
+        <img alt="center" class="max-w-[500px]" />
+        <div class="w-24"></div>
       </div>
     </div>
     <div class="flex flex-wrap w-full h-96">
