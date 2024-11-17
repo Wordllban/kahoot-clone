@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "../../lib/Button.svelte";
   import PlayerNameCard from "../../lib/lobby/PlayerNameCard.svelte";
-  import type { HostGame, players } from "../../services/host/host";
+  import { players, type HostGame } from "../../services/host/host";
 
   interface Props {
     game: HostGame;
@@ -16,7 +16,7 @@
   console.log("host lobby view");
 </script>
 
-<div class="p-8">
+<div class="p-8 bg-purple-400">
   <div class="flex justify-end">
     <Button onclick={start}>Start game</Button>
   </div>

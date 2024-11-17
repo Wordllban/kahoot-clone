@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Component, SvelteComponent } from "svelte";
+  import type { Component } from "svelte";
   import type { Quiz } from "../../models/quiz";
-  import { HostGame, gameState } from "../../services/host/host";
+  import { HostGame, hostGameState } from "../../services/host/host";
   import { GameState } from "../../services/net";
   import HostQuizListView from "./HostQuizListView.svelte";
   import HostLobbyView from "./HostLobbyView.svelte";
@@ -13,7 +13,6 @@
   function hostQuiz(quiz: Quiz) {
     game.hostQuiz(quiz.id);
     active = true;
-    console.log(quiz, game);
   }
 
   const views: Record<GameState, Component<any>> = {
@@ -23,7 +22,7 @@
 </script>
 
 {#if active}
-  {@const ViewComponent = views[$gameState]}
+  {@const ViewComponent = views[$hostGameState]}
   <ViewComponent {game} />
 {:else}
   <HostQuizListView {hostQuiz} {game} />

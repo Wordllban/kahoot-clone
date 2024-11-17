@@ -1,10 +1,14 @@
+import { writable, type Writable } from "svelte/store";
 import {
+  GameState,
   NetService,
   PacketTypes,
+  type ChangeGameStatePacket,
   type ConnectPacket,
   type Packet,
 } from "../net";
 
+export const playerGameState: Writable<GameState> = writable(GameState.Lobby);
 export class PlayerGame {
   private net: NetService;
 
@@ -24,5 +28,13 @@ export class PlayerGame {
     this.net.sendPacket(packet);
   }
 
-  onPacket(packet: Packet) {}
+  onPacket(packet: Packet) {
+    switch (packet.id) {
+      case PacketTypes.ChangeGameState: {
+        const data = packet as ChangeGameStatePacket;
+        playerGameState.set(data.state);
+        break;
+      }
+    }
+  }
 }

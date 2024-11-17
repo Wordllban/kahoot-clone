@@ -10,7 +10,7 @@ import {
   type PlayerJoinPacket,
 } from "../net";
 
-export const gameState: Writable<GameState> = writable(GameState.Lobby);
+export const hostGameState: Writable<GameState> = writable(GameState.Lobby);
 export const players: Writable<Player[]> = writable([]);
 
 export class HostGame {
@@ -39,7 +39,7 @@ export class HostGame {
     switch (packet.id) {
       case PacketTypes.ChangeGameState: {
         const data = packet as ChangeGameStatePacket;
-        gameState.set(data.state);
+        hostGameState.set(data.state);
         break;
       }
       case PacketTypes.PlayerJoin: {
