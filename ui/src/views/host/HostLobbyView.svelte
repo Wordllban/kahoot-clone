@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "../../lib/Button.svelte";
   import PlayerNameCard from "../../lib/lobby/PlayerNameCard.svelte";
-  import { players, type HostGame } from "../../services/host/host";
+  import { gameCode, players, type HostGame } from "../../services/host/host";
 
   interface Props {
     game: HostGame;
@@ -20,7 +20,7 @@
   </div>
   <div class="text-center text-white">
     <h2 class="text-4xl">Join with game code</h2>
-    <!-- <h2 class="text-6xl font-bold mt-4">{$gameCode}</h2> -->
+    <h2 class="text-6xl font-bold mt-4">{$gameCode}</h2>
   </div>
   <h2 class="mt-10 text-white text-4xl font-bold">
     Players ({$players.length})

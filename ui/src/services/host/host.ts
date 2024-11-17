@@ -16,6 +16,7 @@ import {
 
 export const hostGameState: Writable<GameState> = writable(GameState.Lobby);
 export const players: Writable<Player[]> = writable([]);
+export const gameCode: Writable<string | null> = writable(null);
 export const tick: Writable<number> = writable(0);
 export const leaderboard: Writable<LeaderboardEntry[]> = writable([]);
 export const currentQuestion: Writable<QuizQuestion | null> = writable(null);
@@ -44,6 +45,10 @@ export class HostGame {
 
   onPacket(packet: Packet) {
     switch (packet.id) {
+      case PacketTypes.HostGame: {
+        const data = packet as HostGamePacket;
+        gameCode.set(data.quizId);
+      }
       case PacketTypes.ChangeGameState: {
         const data = packet as ChangeGameStatePacket;
         hostGameState.set(data.state);
