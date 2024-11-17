@@ -21,8 +21,6 @@
     [GameState.Intermission]: PlayerRevealView,
     [GameState.End]: undefined,
   };
-
-  console.log($playerGameState);
 </script>
 
 {#if active}

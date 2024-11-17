@@ -1,5 +1,4 @@
 <script lang="ts">
-  console.log("player view");
   import QuizChoiceCard from "../../lib/play/QuizChoiceCard.svelte";
   import {
     type HostGame,

@@ -12,8 +12,6 @@
   function start() {
     game.start();
   }
-
-  console.log("host lobby view");
 </script>
 
 <div class="p-8 bg-purple-400">
