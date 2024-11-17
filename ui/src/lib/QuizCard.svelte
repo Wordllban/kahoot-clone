@@ -1,14 +1,16 @@
 <script lang="ts">
+  import type { Quiz } from "../models/quiz";
+  import Button from "./Button.svelte";
+
   interface Props {
-    quiz: {
-      id: string;
-      name: string;
-    };
+    quiz: Quiz;
+    hostQuiz: () => void;
   }
 
-  let { quiz }: Props = $props();
+  let { quiz, hostQuiz }: Props = $props();
 </script>
 
-<div class="bg-white border-2 border-green-500 p-4 rounded-xl">
+<div class="flex justify-between items-center bg-white border p-4 rounded-xl">
   {quiz.name}
+  <Button onclick={hostQuiz}>Host</Button>
 </div>
