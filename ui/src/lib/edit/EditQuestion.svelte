@@ -43,7 +43,7 @@
 
     <div class="flex-1 flex flex-col justify-center pl-4">
       <div class="flex justify-between items-center">
-        <Clock>
+        <Clock ml="ml-8">
           <input
             value={selectedQuestion.time}
             onchange={onTimeChange}

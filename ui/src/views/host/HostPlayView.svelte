@@ -36,10 +36,16 @@
     </div>
     <div class="flex-1 flex flex-col justify-center pl-4">
       <div class="flex justify-between items-center">
-        <Clock>
-          <span class="text-3xl">{$tick}</span>
-        </Clock>
-        <img alt="center" class="max-w-[500px]" />
+        <div class="flex flex-col items-center justify-center">
+          <h4 class="text-3xl font-bold">Time left</h4>
+          <Clock>
+            <span class="text-3xl">{$tick}</span>
+          </Clock>
+        </div>
+        <img
+          src={$currentQuestion.picture}
+          alt="center"
+          class="max-w-[500px]" />
         <div class="w-24"></div>
       </div>
     </div>

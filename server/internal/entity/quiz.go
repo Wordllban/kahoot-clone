@@ -15,6 +15,7 @@ type QuizQuestion struct {
 	Name    string       `json:"name"`
 	Time    int          `json:"time"`
 	Choices []QuizChoice `json:"choices"`
+	Picture string       `json:"picture"`
 }
 
 type QuizChoice struct {
