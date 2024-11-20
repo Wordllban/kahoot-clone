@@ -2,7 +2,7 @@
 
 ### This project allows you to create your own quizzes, host the game and invite multiple people. It also contains scoreboard, so lets compete!
 
-![Host Example](README\host_example_question.jpg)
+![Host Example](https://github.com/Wordllban/kahoot-clone/blob/main/README/host_example_question.jpg)
 
 ### This project is using `pnpm`
 
